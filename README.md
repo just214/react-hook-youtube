@@ -1,5 +1,9 @@
 # react-hook-youtube
 
+![npm](https://img.shields.io/npm/v/react-hook-youtube?style=social)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-hook-youtube?style=social)
+![NPM](https://img.shields.io/npm/l/react-hook-youtube?style=social)
+
 A custom React hook for easily working with the [Youtube Player API for iframe Embeds](https://developers.google.com/youtube/iframe_api_reference).
 
 ## Usage
@@ -15,7 +19,7 @@ npm install react-hook-youtube
 Basic Example
 
 ```tsx
-import React from "react";
+import * as React from "react";
 import { useYoutubePlayer } from "react-hook-youtube";
 
 export default App = () => {
@@ -30,12 +34,17 @@ export default App = () => {
 Advanced Example
 
 ```tsx
-import React from "react";
+import * as React from "react";
 import { useYoutubePlayer, player } from "react-hook-youtube";
 
 export default App = () => {
   const { YoutubePlayer } = useYoutubePlayer({
     videoId: "KRvv0QdruMQ",
+    height: "390",
+    width: "640",
+    playerVars: {
+      playsinline: 1,
+    },
     events: {
       onReady: (event) => {
         console.log("OnReady event fired.", event);
@@ -43,15 +52,24 @@ export default App = () => {
       onStateChange: (event) => {
         console.log("OnStateChange event fired.", event);
       },
+      onPlaybackQualityChange: (event) => {
+        console.log("onPlaybackQualityChange event fired.", event);
+      },
       onPlaybackRateChange: (event) => {
         console.log("OnPlaybackRateChange event fired.", event);
+      },
+      onError: (event) => {
+        console.log("onError event fired.", event);
+      },
+      onApiChange: (event) => {
+        console.log("onApiChange event fired.", event);
       },
     },
   });
 
   return (
     <div>
-      <YoutubePlayer />
+      <YoutubePlayer className="my-video-player" id="my-unique-id" />
       <section>
         <button onClick={player.pauseVideo}>Pause</button>
         <button onClick={player.stopVideo}>Stop</button>
@@ -63,3 +81,9 @@ export default App = () => {
   );
 };
 ```
+
+Please refer to the [Youtube Player API Reference](https://developers.google.com/youtube/iframe_api_reference) for all of the available player config and player control options. This package also ships with TypeScript type definitions so you can just let Intellisense guide you.
+
+[Youtube Type Definitions](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/youtube/index.d.ts)
+
+TODO: Document playlist usage
