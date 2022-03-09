@@ -1,6 +1,6 @@
 {
   "name": "react-hook-youtube",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "description": "A custom React hook for easily working with the Youtube Player API for iframe Embeds.",
   "author": "Justin <gojutin@gmail.com>",
