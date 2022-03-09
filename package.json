@@ -1,0 +1,70 @@
+{
+  "name": "react-hook-youtube",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "A custom React hook for easily working with the Youtube Player API for iframe Embeds.",
+  "author": "Justin <gojutin@gmail.com>",
+  "type": "module",
+  "source": "src/index.ts",
+  "sideEffects": false,
+  "exports": {
+    "require": "./dist/react-hook-youtube.cjs",
+    "default": "./dist/react-hook-youtube.modern.js"
+  },
+  "main": "./dist/react-hook-youtube.cjs",
+  "module": "./dist/react-hook-youtube.module.js",
+  "unpkg": "./dist/react-hook-youtube.umd.js",
+  "scripts": {
+    "build": "microbundle --jsx React.createElement --external react --define process.env.NODE_ENV=production --name reactHookYoutube --output dist",
+    "dev": "microbundle watch",
+    "release": "np --no-publish"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
+    "@types/react": "^17.0.39",
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
+    "eslint": "^8.10.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.3",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^7.0.4",
+    "microbundle": "^0.14.2",
+    "prettier": "^2.5.1",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "@types/youtube": "^0.0.46"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gojutin/react-hook-youtube.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gojutin/react-hook-youtube/issues"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "youtube",
+    "player",
+    "iframe",
+    "api",
+    "hooks"
+  ],
+  "homepage": "https://github.com/gojutin/react-hook-youtube#readme",
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}
