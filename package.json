@@ -13,6 +13,7 @@
   },
   "main": "./dist/react-hook-youtube.cjs",
   "module": "./dist/react-hook-youtube.module.js",
+  "types": "dist/index.d.ts",
   "unpkg": "./dist/react-hook-youtube.umd.js",
   "scripts": {
     "build": "microbundle --jsx React.createElement --external react --define process.env.NODE_ENV=production --name reactHookYoutube --output dist",

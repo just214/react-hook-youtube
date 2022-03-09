@@ -6,15 +6,20 @@ declare global {
   }
 }
 
+export type YoutubePlayerProps = {
+  className?: string;
+  style?: React.CSSProperties;
+};
+
+export type PlayerProps = YT.Player;
+
 // window.onYouTubeIframeAPIReady = window.onYouTubeIframeAPIReady || {};
 
-export function useYoutubeIframe(options: YT.PlayerOptions) {
+export function useYoutubeIframe(options: YT.PlayerOptions): {
+  YoutubePlayer: React.FC<YoutubePlayerProps> | null;
+  player: YT.Player;
+} {
   const playerRef = React.useRef<any>();
-
-  type YoutubePlayerProps = {
-    className?: string;
-    style?: React.CSSProperties;
-  };
 
   // COMPONENT
   const YoutubePlayer =
