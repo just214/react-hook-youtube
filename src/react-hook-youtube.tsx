@@ -17,15 +17,18 @@ export function useYoutubeIframe(options: YT.PlayerOptions) {
   };
 
   // COMPONENT
-  const YoutubePlayer = React.useMemo(() => {
-    return (props: YoutubePlayerProps) => (
-      <div
-        className={props.className || ""}
-        style={props.style}
-        id={`youtube-player-${options.videoId}`}
-      />
-    );
-  }, [options.videoId]);
+  const YoutubePlayer =
+    React.useMemo((): React.FC<YoutubePlayerProps> | null => {
+      return !options.videoId
+        ? null
+        : (props) => (
+            <div
+              className={props.className || ""}
+              style={props.style}
+              id={`youtube-player-${options.videoId}`}
+            />
+          );
+    }, [options.videoId]);
 
   /**
    * Queueing functions
@@ -299,5 +302,8 @@ export function useYoutubeIframe(options: YT.PlayerOptions) {
       getIframe,
       destroy,
     },
-  } as { YoutubePlayer: React.FC<YoutubePlayerProps>; player: YT.Player };
+  } as {
+    YoutubePlayer: React.FC<YoutubePlayerProps> | null;
+    player: YT.Player;
+  };
 }
