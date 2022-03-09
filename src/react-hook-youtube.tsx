@@ -9,6 +9,7 @@ declare global {
 export type YoutubePlayerProps = {
   className?: string;
   style?: React.CSSProperties;
+  id?: string;
 };
 
 export type PlayerProps = YT.Player;
@@ -23,16 +24,14 @@ export function useYoutubeIframe(options: YT.PlayerOptions): {
 
   // COMPONENT
   const YoutubePlayer =
-    React.useMemo((): React.FC<YoutubePlayerProps> | null => {
-      return !options.videoId
-        ? null
-        : (props) => (
-            <div
-              className={props.className || ""}
-              style={props.style}
-              id={`youtube-player-${options.videoId}`}
-            />
-          );
+    React.useMemo((): React.FunctionComponent<YoutubePlayerProps> => {
+      return (props) => (
+        <div
+          className={props.className || ""}
+          style={props.style}
+          id={props.id || `youtube-player-${options?.videoId}`}
+        />
+      );
     }, [options.videoId]);
 
   /**
@@ -308,7 +307,7 @@ export function useYoutubeIframe(options: YT.PlayerOptions): {
       destroy,
     },
   } as {
-    YoutubePlayer: React.FC<YoutubePlayerProps> | null;
+    YoutubePlayer: React.FunctionComponent<YoutubePlayerProps>;
     player: YT.Player;
   };
 }
