@@ -14,9 +14,7 @@ export type YoutubePlayerProps = {
 
 export type PlayerProps = YT.Player;
 
-// window.onYouTubeIframeAPIReady = window.onYouTubeIframeAPIReady || {};
-
-export function useYoutubeIframe(options: YT.PlayerOptions): {
+export function useYoutubePlayer(options: YT.PlayerOptions): {
   YoutubePlayer: React.FunctionComponent<YoutubePlayerProps>;
   player: YT.Player;
 } {
