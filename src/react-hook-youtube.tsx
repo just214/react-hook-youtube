@@ -23,13 +23,16 @@ export function useYoutubePlayer(options: YT.PlayerOptions): {
   // COMPONENT
   const YoutubePlayer =
     React.useMemo((): React.FunctionComponent<YoutubePlayerProps> => {
-      return (props) => (
-        <div
-          className={props.className || ""}
-          style={props.style}
-          id={props.id || `youtube-player-${options?.videoId}`}
-        />
-      );
+      return (props) => {
+        const playerId = `youtube-player-${props?.id || options?.videoId}`;
+        return (
+          <div
+            className={props.className || ""}
+            style={props.style}
+            id={playerId}
+          />
+        );
+      };
     }, [options.videoId]);
 
   /**
@@ -239,7 +242,8 @@ export function useYoutubePlayer(options: YT.PlayerOptions): {
   };
 
   function loadVideo() {
-    new YT.Player(`youtube-player-${options.videoId}`, {
+    if (!window?.YT) return;
+    new window.YT.Player(`youtube-player-${options.videoId}`, {
       videoId: options.videoId,
       playerVars: options.playerVars,
       height: options.height || 390,
