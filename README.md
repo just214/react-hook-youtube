@@ -39,10 +39,10 @@ Advanced Example
 
 ```tsx
 import * as React from "react";
-import { useYoutubePlayer, player } from "react-hook-youtube";
+import { useYoutubePlayer } from "react-hook-youtube";
 
 export default App = () => {
-  const { YoutubePlayer } = useYoutubePlayer({
+  const { YoutubePlayer, player } = useYoutubePlayer({
     videoId: "KRvv0QdruMQ",
     height: "390",
     width: "640",
