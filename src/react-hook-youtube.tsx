@@ -24,10 +24,10 @@ export function useYoutubePlayer(options: YT.PlayerOptions): {
   const YoutubePlayer =
     React.useMemo((): React.FunctionComponent<YoutubePlayerProps> => {
       return (props) => {
-        const playerId = `youtube-player-${props?.id || options?.videoId}`;
+        const playerId = `youtube-player-${options?.videoId}`;
         return (
           <div
-            className={props.className || ""}
+            className={`${props.className || ""}`}
             style={props.style}
             id={playerId}
           />
@@ -129,6 +129,7 @@ export function useYoutubePlayer(options: YT.PlayerOptions): {
     return playerRef.current?.isMuted();
   }, []) as YT.Player["isMuted"];
 
+  // An integer between 0 and 100.
   const setVolume = React.useCallback((num) => {
     return playerRef.current?.setVolume(num);
   }, []) as YT.Player["setVolume"];
@@ -152,7 +153,7 @@ export function useYoutubePlayer(options: YT.PlayerOptions): {
   }, []) as YT.Player["getPlaybackRate"];
 
   const setPlaybackRate = React.useCallback((suggestedRate) => {
-    return playerRef.current?.setPlaybackRate(suggestedRate);
+    return playerRef.current?.setPlaybackRate(+suggestedRate);
   }, []) as YT.Player["setPlaybackRate"];
 
   const getAvailablePlaybackRates = React.useCallback(() => {
@@ -233,16 +234,7 @@ export function useYoutubePlayer(options: YT.PlayerOptions): {
     return playerRef.current?.destroy();
   }, []) as YT.Player["destroy"];
 
-  // INTERNAL
-
-  const onPlayerReady = (event: any) => {
-    // Set up the player ref
-    playerRef.current = event.target;
-    options.events?.onReady?.(event);
-  };
-
-  function loadVideo() {
-    if (!window?.YT) return;
+  const loadVideo = React.useCallback(() => {
     new window.YT.Player(`youtube-player-${options.videoId}`, {
       videoId: options.videoId,
       playerVars: options.playerVars,
@@ -250,27 +242,37 @@ export function useYoutubePlayer(options: YT.PlayerOptions): {
       width: options.width || 640,
       events: {
         ...options.events,
-        onReady: onPlayerReady,
+        onReady: (e) => {
+          playerRef.current = e.target;
+          options.events?.onReady?.(e);
+        },
       },
     });
-  }
+  }, [options]);
+
+  // INTERNAL
 
   React.useEffect(() => {
-    if (window && !window.YT) {
-      const tag = document.createElement("script");
-      tag.src = "https://www.youtube.com/iframe_api";
-      // @ts-ignore
-      window.onYouTubeIframeAPIReady = loadVideo;
-      const firstScriptTag = document.getElementsByTagName("script")[0];
-      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-    } else {
-      loadVideo();
+    if ((window && !window.YT) || !options.videoId) {
+      new Promise((resolve) => {
+        const tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName("script")[0];
+        firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+        // @ts-ignore
+        window.onYouTubeIframeAPIReady = () => {
+          resolve(window.YT);
+        };
+      }).then(() => {
+        loadVideo();
+      });
     }
+
+    return destroy();
   }, []);
 
-  return {
-    YoutubePlayer,
-    player: {
+  const player = React.useMemo(() => {
+    return {
       cueVideoById,
       loadVideoById,
       cuePlaylist,
@@ -307,7 +309,49 @@ export function useYoutubePlayer(options: YT.PlayerOptions): {
       removeEventListener,
       getIframe,
       destroy,
-    },
+    };
+  }, [
+    addEventListener,
+    cuePlaylist,
+    cueVideoById,
+    destroy,
+    getAvailablePlaybackRates,
+    getCurrentTime,
+    getDuration,
+    getIframe,
+    getPlaybackRate,
+    getPlayerState,
+    getPlaylist,
+    getPlaylistIndex,
+    getSphericalProperties,
+    getVideoEmbedCode,
+    getVideoLoadedFraction,
+    getVideoUrl,
+    getVolume,
+    isMuted,
+    loadPlaylist,
+    loadVideoById,
+    mute,
+    nextVideo,
+    pauseVideo,
+    playVideo,
+    playVideoAt,
+    previousVideo,
+    removeEventListener,
+    seekTo,
+    setLoop,
+    setPlaybackRate,
+    setShuffle,
+    setSize,
+    setSphericalProperties,
+    setVolume,
+    stopVideo,
+    unMute,
+  ]);
+
+  return {
+    YoutubePlayer,
+    player,
   } as {
     YoutubePlayer: React.FunctionComponent<YoutubePlayerProps>;
     player: YT.Player;
