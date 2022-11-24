@@ -3,7 +3,7 @@
   "version": "0.0.9",
   "license": "MIT",
   "description": "A custom React hook for easily working with the Youtube Player API for iframe Embeds.",
-  "author": "Justin <gojutin@gmail.com>",
+  "author": "Justin <justlogins@pm.me>",
   "type": "module",
   "source": "src/index.ts",
   "sideEffects": false,
@@ -18,23 +18,12 @@
   "scripts": {
     "build": "microbundle --jsx React.createElement --external react --define process.env.NODE_ENV=production --name reactHookYoutube --output dist",
     "dev": "microbundle watch",
-    "release": "np --no-publish",
+    "release": "np",
     "test": "exit 0",
     "prepublish": "npm run build"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.3.0",
-    "@commitlint/config-conventional": "^17.3.0",
     "@types/react": "^18.0.25",
-    "@typescript-eslint/eslint-plugin": "^5.44.0",
-    "@typescript-eslint/parser": "^5.44.0",
-    "eslint": "^8.28.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsx-a11y": "^6.6.1",
-    "eslint-plugin-react": "^7.31.11",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^8.0.2",
     "microbundle": "^0.15.1",
     "prettier": "^2.8.0",
     "typescript": "^4.9.3"
@@ -64,10 +53,5 @@
     "api",
     "hooks"
   ],
-  "homepage": "https://github.com/gojutin/react-hook-youtube#readme",
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  }
+  "homepage": "https://github.com/gojutin/react-hook-youtube#readme"
 }
